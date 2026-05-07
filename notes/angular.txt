@@ -1,0 +1,83 @@
+angular :
+
+
+
+1. What do you mean by angular is single page application?: 
+An Angular application loads a single HTML page once, and then dynamically updates the content of that page as the user interacts with the app—without reloading the entire page.
+
+2. Dependency Injection in Angular is a mechanism where required services or objects are injected into a class (component, service, etc.) by the Angular framework, rather than being created manually.
+
+3. Scope of service in angular? : 
+1. root : one instance for the entire app lifecycle
+2. module : one per module 
+3. component : one per component
+
+4. list of angular lifecycle hooks :
+these are the special methods that allow you to tap into different phases of component from creation to destruction. 
+1. constructor : used only for dependency injection , called when component class is instantiated
+2. ngonchanges : called when @input() values change , runs before ngoninit , called multiple times
+3. ngoninit : called once after ngonchanges , best place for initialization code  , used for api calls
+4. ngdocheck : used for custom change detection 
+5. ngaftercontentinit : called once after projecting content (ng-content)
+6. ngaftercontentchecked : called after every projected content checked
+7. ngafterviewinit : called once after component's view is initialized
+8. ngafterviewchecked : called after every view checked
+9. ngondestroy : called just before component is destroyed
+
+5. angular architecture:
+it describes how different building blocks of angular work together to create a single page application.
+it follows modular, component based architecture.
+
+code building blocks:
+1. module: it is a container that groups related code together. types are :
+rootmodule(appmodule),features module, shared module, lazy-loaded module
+2. components: it controls a view and contains html (template), css (style), (typescript)ts (logic) file
+3. templates: it defines what the user sees
+4. data binding (component --> view): angular support 4 types of data binding :
+interpolation{{ }} : used to display data from the component in the template. used for text, numbers , expressions. data flows from component to view.
+property binding [] : used to set html element dynamically. used for attributes like src, disabled , value. data flows from component to view.
+event binding () : used to handle user actions and send data from view to component. common events: click , change , submit. 
+two -way binding [(ngmodel)] : property binding + event binding. requires importing formsmodule. data flows in both ways.
+5. directives : it change DOM(document object model , browser uses dom to display and update content) behavior. types:
+structural : *ngIf, *ngfor ; attribute : ngclass , ngstyle ; custom directives
+6. services : it contains business logic and shared data. used for api calls , data sharing , logic reuse
+7. dependency injection (DI): angular provides di automatically. purpose : loose coupling , testability , maintainability
+8. routing (navigation): angular uses routermodule for SPA navigation. it enables navigation without page reload
+9. pipes: it transform data in templates. built in pipes : date, uppercase , async , curreny and also we can create custom pipes
+ 
+angular component communication : means how data and events are shared amoung multiple components. types :
+parent --> child (@input()) : used when parent component send data to its child component
+child --> parent (@output() + eventemitter) : used when  a child component sends data back to its parent
+parent <--> child (@viewchild()) : used when parents want direct access to child component methods or properties. it is tight coupling use carefully
+sibling (using service) : used when components are not directly related
+using rxjs subject: perfect for real time data sharing
+using router parameters: used for communication during navigation
+using ngrx : used in large enterprise apps.
+
+angular elements : 
+
+root entry point in angular : app.ts
+
+-----------------
+
+interceptor in angular
+authorization and authentication at UI level
+have you used the custom pipes
+types of pipes
+module , have you create custom module
+
+
+batch processing
+
+Angular :
+change detection on push
+view encapsulation
+new features of angular 21
+
+
+
+
+
+
+
+

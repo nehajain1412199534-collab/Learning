@@ -1,0 +1,201 @@
+questions2:
+
+1. Explain Dependency Injection. : 
+it is a design pattern in which a class or object receives their dependencies from the external source rather than creating by themselves. it is of 3 types :
+constructor DI, method DI , property DI
+it has 3 life services :
+addscoped : create a new instance per http request. example : for dbcontext, we need the sharing state within the same request
+addsingleton : creates a single instance for the complete application. example : for caching , logging because 	it shared across all request and users
+addtransient : creates a new instance per every request and instances are never shared. example : we can implement it for calculation related areas , not required any shared state.
+benefits : it is loosely coupled, easy to maintain
+
+What problem DI resolve:
+loose coupling, better testability and maintainability , clear separation of concerns
+
+2. What are SOLID Principal Explain L in this.  : 
+S - single responsibility principal
+o - open/closed principal
+l - liskov substitution principal : objects of super class should be replaceable with the objects of sub class without affecting the correctness of the program. example : if b is the sub class of a, we can use the object of a any where , so it should be make sure that object of b can also be used any where.
+i - interface segregation principal
+d  - dependency inversion principal
+
+3. Explain Garbage collector.  : 
+it autmotically frees the memory for the object that are no longer in use. we dont need to delete it manually.
+it has three generations :
+gen0 - short lived 
+gen1 - medium lived
+gen2 - long lived
+the object that are with gen0 , and when garbage collector survive if these are referenced then they will move to gen1 and if they no longer referenced then they will remove. same as gen1 , if object with gen1 are no longer referenced then they remove and they are referenced then they will move to gen2.
+
+4. How you do logging. : 
+
+5.  What are delegates. : 
+delegates are type safe function pointer that holds the reference to a method. it passes the method as a parameter. it is used for call backs and event handling. they are invoked dynamically at run time.
+
+Event: we can not create events without delegates. events is just like a wrapper over the delegate that provides some additional security by allowing only subscription and unsubscription, not direct invocation.
+
+multicast delegate : that can holds reference to multiple methods.  All the methods in invocation list are executed one by one. all delegates are multi cast by default.
+
+using System;
+
+// Step 1: Declare a delegate
+delegate void PrintMessage(string message);
+
+class Program
+{
+    // Step 2: Create a method with same signature
+    static void ShowMessage(string msg)
+    {
+        Console.WriteLine("Message: " + msg);
+    }
+
+    static void Main()
+    {
+        // Step 3: Create delegate instance and assign method
+        PrintMessage del = ShowMessage;
+
+        // Step 4: Invoke delegate
+        del("Hello Delegate");
+    }
+}
+``
+
+multicast :
+
+delegate void Calculate(int x, int y);
+
+class Program
+{
+    static void Add(int a, int b)
+    {
+        Console.WriteLine("Addition: " + (a + b));
+    }
+
+    static void Subtract(int a, int b)
+    {
+        Console.WriteLine("Subtraction: " + (a - b));
+    }
+
+    static void Main()
+    {
+        Calculate calc = Add;
+        calc += Subtract;
+
+        calc(10, 5);  // Calls both methods
+    }
+}
+
+6. How you can make a public method in a MVC controller but do not want to treat it as an action method? : 
+By using [NonAction] attribute, it will treat this the action method as no action perform required.
+
+7. Explain Design Pattern you have worked on.  : 
+Repository pattern: it abstracts the data access layer so that business layer does not directly depend on data access layer. it act as a mediator between the business layer and data access layer.
+I use it because : 
+it centralize database operation , reduce code duplication , improves testability , make application loosely coupled
+how it works:
+controller or services do not directly interact with dbcontext. instead they depend on repository interface.
+instead, they call methods from a repository interface
+the repository handles all crud operations
+di is used to inject the repository into controller or services.
+
+drawbacks of repository pattern:
+1. while we are using entity framework , we should not use repository because entity framework used dbcontext which behaves like a repository
+2. in repository pattern , we need multiple interfaces , repositories and di setup for same type of crud operations so it will increase the size of project which can effect performance.
+3. managing multiple repositories in single transaction will be difficult, there may be need to use unit of work pattern.
+
+8. How you resolve multiple Dependency in net core. : 
+by registering multiple implmentations of interfaces and injecting them by using ienumerable<t> , or we can also use factory pattern.
+
+9. Difference between Var and Dynamic. : 
+var is compile time checking , once assigned type can not be changed.
+dynamic is run time checking, variable hold values of different types at runtime 
+
+10.  Why are you using .NET Core? What are the benefits over .NET Framework? :
+.Net : it is windows platform. it is the older framework used in legacy application., the application are hosted on IIS only. , no built in dependency injection feature,it is monolithic , not open source, not designed for cloud or microservices architecture.
+.Net Core : it is cross platform (windows, Linux). it is new modular version of framework. now a days if we had to create a new application , we use this., the applications can be hosted on multiple servers (IIS, kestrel , apache) , it is open source , built in dependency injection feature, designed for cloud based applications and microservices architecture. performance is faster
+
+11. design principles or solid principals with real world examples where we applied them:
+S - single responsibility principle : a class can do one task or one responsibility. if there is print , scan functionality then we have to make separate classes for their implementation. 
+o - open/close principal : open for extension but closed for modification. example : if there is any new requirement came , then it should be make sure that existing code will not disturb , we just add the functionality not modify in the existing code
+l - liskov substituition principle : object of super class should be replaceable with the objects of sub class without affecting the correctness of the program. example: if b is sub class of a , object of a can be use any where so that object of b should also be use from any where
+i - interface segregation principle : client should not force to depend on the interface they dont use. example : print, scan , fax , here if we have to develope the functioan;ity of this then we should create separate interfaces for all of three , instead of declaring them in single interface because if some user want only print , then in one interface they will also depend on scan and fax , which is not good
+d - dependency inversion principle : high level modules should not depend on low level modules. Inotification service should not depend on mailservice
+
+12. Event-driven pattern : where a produces produces the event and consumers consume that event.
+it creates loose coupling , asynchronous communication. 
+core concepts:
+1. event: is a fact that something is happened in the system. 
+2. event producer 
+3. event consumer
+4. event bus: azure service bus
+
+13. cqrs pattern : command query responsibility segregation where the read operation are separated from the write operations.
+how does cqrs improve application performance: it is very good for large amount of data so there it may degrade the performance so it is better to use read operations separated from the write operations so that write operations will not increase the load on read operations and vice-versa.
+Read and write having their own databases.
+
+14. What is unmanaged code, and how do you manage it in a .NET application? :
+unmanaged code is the code which is not managed by CLR, is outside the CLR. which is not managed by garbage collector. these are used to release unmanaged resources manually by the developers using dispose () and using statement.
+
+15. CLR : common language runtime
+it is responsible for managing , running and securing .net applications.
+key responsibility:
+1. CLR uses garbage collector & memory management
+
+16. What are Generics?  : 
+it let us define classes or methods with a placeholder type, providing compile time checking and better performance.
+types:
+generic class , generic method , generic interface , generic collections
+
+17.  What are Func<> and Predicate<>? : these both are built in generic delegates types. they represent method as objects.
+func(): it take more than one input and return a value. 
+predicate(): it takes one input and return as bool.
+
+18. What is cancellation token :
+it is a light weight object in .net used to cancel on going operations especially asynchronous or long-running task. 
+it is needed when threads keep running event if result is no longer required. wasted CPU , memory.
+how it works: it has three components:
+1. cancellationtokensource:it issues the cancel request
+2. cancellationtoken:passed to the operation
+3. consumer code: checks the token and stops execution
+
+19. What are the advantages of LINQ over Entity Framework queries?  : 
+linq is a language feature independent of entity framework. entity framework uses linq to create database queries. linq offers advantages like compile time checking, intellisense support, cleaner syntax, independent of database , preventing sql injection.making it easier and safer to write and maintain queries compare to raw sql queries.
+
+20. What is the use of the Include keyword compared to Join?  : 
+include - loads the related entities (full object)
+join - combines the two data sources, it is used where we dont want full object, just give me specific data 
+
+21. What are best practices for fetching and filtering data using LINQ? :
+1. filter early as early as possible
+2. use select to fetch only the required columns
+3. avoid tolist() to early
+4. use any() instead of count()
+5. prefer firstordefault() over singleoverdefault() 
+6. use Asnotracking() for read only queries
+7. use include() only when we need full related entity
+8. use paging for large data set
+
+22. We are facing a problem the value of session variable is sometime showing and some time not on UI?(consider session is not expired) how will you approach/debug this problem. : 
+1. session should be set before read
+2. session cookies must be enabled
+3. session timeout check
+4. ensure session is properly configures
+5. add logging to track when session is set and accessed
+6. if app is running on multiple servers , session may not be shared. use distributed session (sqlserver/redis)
+
+23. For a given Data query how will you optimize that ? have you use any tool?":
+1. instead of *, we select the required columns
+2. proper indexing
+3. avoid N+1 queries (1 query to get the main data and N for the related entities)
+4. cache of frequently used data
+5. for complex query, use stored procedure
+
+24. Can you Explain how will you design a API to Fetch payroll Information?  : 
+i would design a resful api with secure authentication and role based authorization to fetch payroll data. it must use caching and optimized query for performance, prevent N+1 queries , 
+
+
+addtransient :
+stateless , example: for calculation
+
+addscoped : 
+statefull , example: dbcontext

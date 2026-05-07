@@ -1,0 +1,401 @@
+microservices:
+most important questions:
+what are microservices: it is an architectural style where an application is composed of multiple small independent services that has its own data and logic. 
+they are loosely coupled. we can update any one service without effecting others. services communicate thorugh REST APIs or messaging.
+
+
+microservices vs monolithic : 
+microservices: it splits the application into multiple small independent services that are loosely coupled and we can deploy them separately.
+each service owns its own database. failure of one service will not bring down the complete application.
+
+monolithic: it is built as a single unit which is tightly coupled and deployed together. all compoenents usually shares the single database.
+failure of any components leads to the complete application failure.
+
+
+
+when should not use microservices: when we have to develop small or simple application , there is a small team, when fast development is required. limited budget. 
+
+
+
+how to design a microservice: 
+1. identify the business capability: understand business domain, each microservice should focus on one responsibility , follow single responsibility principal
+2. define clear service boundaries
+3. define how services will be accessed. use REST API or messaging, 
+4. each microservice has its own database.
+5. ensure loose coupling
+6. handle inter service communication
+7. each service should be deployed independently
+
+
+
+
+what is database per microservice. why is it important : 
+it means each microservices have its own database. a service can expose its data only through API or events ,not via shared tables.
+example: userservice: userdb , restuarantservice : restaurantdb
+why it is important:
+1. ensured loose coupling
+2. enables independent deployment
+3. imporves scalability
+4. better fault isolation: if one service fails, it will not affect the other , other services continue working
+5. allows technology flexibility like any service can use anydatabase , like cosmosdb, mongodb, sql server
+6. better security
+
+
+
+
+
+how do microservices communicate with each other:
+service can communicate by two ways:
+1. synchronous: by direct calling the APIs which takes time. one service sends a request and wait for response.
+when it is required: when immediate response is required, for real time decision making
+2. Asynchronous: by using messaging like azure service bus. one service publishes the event and other consume it later. 
+how azure service bus works:
+1. azure service bus namespace creation: everything in azure service bus lived inside a namespace. a namespace is a logical container. it provides DNS endpoints ,authentication & authorization. it acts as a entry point for producer and consumer.
+2. messaging entity setup: once the namespace exists, you create messaging entities: 
+a. queue: one producer and one consumer , used for commands , example : ProcessPayment
+b. Topic + subscription (publish subscribe): one message can be delivered to multiple subscribers. used for events. example: ordercreated--> inventory, notification , subscription is a virtual queue attached to topic.
+a topic received message once , each subscription gets its own copy and can filter , transform and process messages independently.
+3. producer send a message : it wants to send information to other services.
+example: orderservice sends an ordercreated event .
+how it sends:
+producer connects to service bus using managed identity or SAS token and sends message using AMQP protocol.
+the producer does not know who consumes the message 
+the producer does not wait for processing.
+4. message is store and forward: message is durably stored in service bus and stored by azure. message remains safe even if consumer is down and network fails. 
+5. message structure: each service bus contains 
+header (metadata): messageid, correlation id, sessionid , time-to-live, deliverycount
+body : actual business payload(json, xml)
+6. consumer receives the message: consumer pulls message. service bus places a lock on the message. lock prevents other consumers from processing same request. 
+7. message processing by the consumer: reads the message , executes business logic, update its own database
+8. after successful completion, message is removed from queue/subscription. service bus consider it successfully processed. 
+9. failure handling: 
+a. if consumer crashes : if lock expires, and multiple consumers consume that, 
+b. retry mechanism : azure service bus retry automatically, delivery count increments
+c. dead letter queue : if message fails repeatedly, then it move to DLQ, which helps in debugging and recovery
+10. azure service gurantees atlest one delivery. a message can be deliveryed more than once, 
+
+
+communication patterns:
+point to point : one service sends a message to another specific service
+
+publish - subscribe : one service publishes the event and other consume it.
+
+
+
+
+how failures are handled:
+1. retry mechanism: when a service fails temporarily , the operation is retried
+2. message lock and redelivery : consumer receives a message , message is locked , if consumer expired before completion , lock expired , message 
+available again, another consumer process it.
+3. DLQ : message that fail repeatedly are moved to DLQ , 
+when it happens: max delivery count exceeded , invalid message format, business rule failure
+4, circuit breaker pattern (synchronous call): stops sending requests to the failing service temporarily, allowing it time to recover and protecting the rest of the system. how it works:
+a. closed(normal) : request flow normally, failures are monitored.
+b. open (failure) : if failures exceed the threshold, the breaker opens , all calls fail fast.
+c. half open : after a timeout , a few test requests are allowed. if they succeed , the breaker closed , if they fail , breaker opens again.
+5. timeout handling: set reasonable timeouts. 
+6. if a service fails, system provides reduced functionality instead of crashing
+7. saga pattern
+8. idempotency : it refers to processing the same request multiple times and giving the same result as processing it once.
+in microservices , this is critical because messages can be retired , messages can be delivered more than one.
+
+OR 
+
+Idempotency refers to the concept where processing the same request multiple times produces the same result as processing it once.
+✅ Why it is Important
+In distributed systems and microservices, requests or messages can be retried due to failures. Without idempotency, retries can lead to duplicate operations.
+✅ Example
+Consider an order creation scenario:
+
+Without idempotency:
+
+If the same request is received again, the system may create two orders ❌
+
+
+With idempotency:
+
+The system first checks whether the order already exists
+If the order is already created, it skips processing ✅
+
+
+
+✅ How It Works
+
+The system uses a unique identifier (such as OrderId or RequestId)
+Before processing, it checks whether this ID has already been processed
+If yes → skip
+If no → process and store the ID
+
+
+-----------------------------------------------------------------
+
+practical implementation of circuit breaker : 
+1. instally polly package
+2. create circuit breaker
+using Polly;
+using Polly.CircuitBreaker;
+using System;
+
+var circuitBreakerPolicy =
+    Policy
+        .Handle<Exception>()                 // what failures to track
+        .CircuitBreaker(
+            exceptionsAllowedBeforeBreaking: 3,    // failure threshold
+            durationOfBreak: TimeSpan.FromSeconds(30), // OPEN state duration
+            onBreak: (ex, breakDelay) =>
+            {
+                Console.WriteLine("Circuit OPENED");
+            },
+            onReset: () =>
+            {
+                Console.WriteLine("Circuit CLOSED");
+            },
+            onHalfOpen: () =>
+            {
+                Console.WriteLine("Circuit HALF-OPEN");
+            }
+        );
+3. use the circuit breaker
+try
+{
+    circuitBreakerPolicy.Execute(() =>
+    {
+        CallExternalService();
+    });
+}
+catch (BrokenCircuitException)
+{
+    Console.WriteLine("Request blocked - circuit is OPEN");
+}
+``
+4.example external service call
+void CallExternalService()
+{
+    Console.WriteLine("Calling Service B...");
+
+    // Simulate failure
+    throw new Exception("Service B is down");
+}
+``
+5. open , while circuit open , no actual call and fails fast, after 30 seconds , circuit become half open and allows 1 test call
+6. add fallback: instead of just failing, return a safe response
+var fallbackPolicy =
+    Policy<string>
+        .Handle<BrokenCircuitException>()
+        .Fallback("Fallback response: service unavailable");
+
+var combinedPolicy = fallbackPolicy.Wrap(
+    Policy<string>
+        .Handle<Exception>()
+        .CircuitBreaker(
+            exceptionsAllowedBeforeBreaking: 3,
+            durationOfBreak: TimeSpan.FromSeconds(30)
+        )
+);
+
+string result = combinedPolicy.Execute(() =>
+{
+    return GetDataFromServiceB();
+});
+``
+
+7. configure httpclient with circuit breaker:
+builder.Services.AddHttpClient("ServiceB")
+    .AddPolicyHandler(
+        Policy<HttpResponseMessage>
+            .Handle<HttpRequestException>()
+            .OrResult(r => !r.IsSuccessStatusCode)
+            .CircuitBreakerAsync(
+                handledEventsAllowedBeforeBreaking: 5,
+                durationOfBreak: TimeSpan.FromSeconds(30)
+            )
+    );
+``
+
+var client = httpClientFactory.CreateClient("ServiceB");
+var response = await client.GetAsync("/api/data");
+
+-------------------------------------------------------------
+
+how do you handle transactions in microservices
+or saga pattern : 
+in microservices, tradiational database transactions can not be used , because each service has its own database , services run independently so distributed transactions (2PC) are very slow and tightly coupled.
+key approached:
+1. avoid distributed transaction
+2. saga pattern: it is the sequence of local transaction where each service perform its operation, if any step fails, then compensating actions triggered to undo previous step. 
+
+example: if order placed , but payment not successfully then compensation is order service cancel the order. 
+types of saga:
+1. choreography : services react to events, no central coordinator , 
+how it works:
+each service executes a local transaction , publishes an event and other services react to that event
+2. orchestration : central coordinator controls step, 
+3. idempotency
+4. reliable messaging : azure service bus, it provides at least one delivery , retry mechanism , deal letter queue
+5. conpensation instead of rollback
+
+---------------------------------------------------------
+
+event driven architecture:
+it is a deisgn pattern where the system is based on events. producer produce the event and service bus store this event and consumer consumes the event.
+producers dont know consumer. it is asynchronour communication , loose coupling.
+
+----------------------------------------------------------
+how do you implement resilience in .net : it is implemented using timeout, retries, circuit breaker , idempotency.
+Resilience means the system does not break completely when failures occur; it adapts, recovers, and keeps working.
+
+---------------------------------------------------------
+API gateway: it is the single entry point for clients, routing request to backend microservices and handling all incoming client request. 
+instead of clients calling microservices directly , they call the api gateway which routes the request to the appropriate microservices and return the response. 
+why do we need api gateway:
+client must know :
+1. which service to call
+2. different api and end points
+3. how many services to call
+this creates:
+tight coupling
+complex client logic
+
+api gateway simplifies client interaction and hides internal service details.
+
+how api gateway works:
+1. client send the request to api gateway
+2. api gateway authenticates the request, validates the token , routes the request to the appropriate microservices.
+3. microservices process the request
+4. response goes back through the api gateway 
+5. api gateway returns the reponse to the client.
+
+core responsibility :
+1. request routing
+2. authentication & authorization
+3. aggregation : combines reponses from the multiple services into one response.
+4. limits number of request per client. it protects backend services from overload
+5. distribute traffic across multiple service instances
+6. cache frequently requested response
+
+
+types of api gateway:
+1. single api gateway : one gateway for all clients
+2. backend for frontend : separate gateway for web, mobile ,external clients 
+
+--------------------------------------------
+
+system telemetry : it is the data a system emits about itself - such a metrices, logs and traces , so engineers can monitor, analyse and troubleshoot it.
+it is important because : it detect failures early, debug production issues, 
+3 pillar:
+1. metrices: numerical measurement over time . example: CPU usage, memory consumption , error rate
+2. logs: discrete time stamped event records. example: Error logs, audit logs, 
+3. traces: end to end request flow across services. example: which service were called, how long each call took , where failures occured
+
+----------------------------------------------
+httpclient : allows one application to call another application over http. 
+it is used for calling apis, communicating between microservices, sending http request like get , post, put. 
+characteristics: 
+supports async/await, reuses http connections, work over http/https, used in server-to-server communication.
+
+HttpClient client = new HttpClient();
+var response = await client.GetAsync("https://api.example.com/data");
+
+important warnings:
+1. creating a new httpclient for every request , can lead to socket exhaustion
+2. keeping one static httpclient forever: can cause DNS refresh issue.
+
+this is why httpclient factory is used in modern .net.
+
+httpclient factory: it managed creation and lifetime of httpclient.
+
+it is needed because :
+1. creating a new httpclient for every request , can lead to socket exhaustion
+2. keeping one static httpclient forever: can cause DNS refresh issue.
+
+how to use it:
+1. register it:
+builder.Services.AddHttpClient();
+``
+2. inject it :
+public class OrderService
+{
+    private readonly HttpClient _httpClient;
+
+    public OrderService(IHttpClientFactory factory)
+    {
+        _httpClient = factory.CreateClient();
+    }
+}
+
+types:
+1. default client
+2. named httpclient
+3. types httpclient (always recommended)
+builder.Services.AddHttpClient<PaymentClient>();
+
+public class PaymentClient
+{
+    private readonly HttpClient _client;
+
+    public PaymentClient(HttpClient client)
+    {
+        _client = client;
+    }
+}
+
+
+--------
+eagar loading, lazy loading , explicit loading'
+
+Eager loading : the data is loaded at the same time as the main query , it is loaded before we try to access it in the code. it uses include() (and theninclude()) and typically executes in single database query, fetching both the main entity and its related data.
+
+lazy loading: the data is loaded when accessed. multiple database queries may occur. navigation properties are loaded when accessed. it should be used when we dont need the related data and also for simple applications.
+
+explicit loading: 
+
+
+late binding, early binding
+
+---------------------
+
+1. challenges in your projectr and how youn resoved:
+  1. API starts responding very slow due to heavy database queries and multiple joins ,identified slow queries using logging, to reduce this , i use proper indexing , use of asynchronous programming , implemented cache , 
+  2. global exception handling by using useexceptionhandler or by creating custom middleware
+  3. by using constructor based dependency injection 
+
+---------------------------------------------------------------
+
+2. when we use transient and when scoped, 
+scoped is for when we have to create the instance per http request, example is we can use it for DBContext, because it should be shared within one request and add transient , here it create new instance every time it is requested,xample we can use it for sending emails , because we dont need to maintain any shared state.
+
+--------------------------------------------------------------
+
+3. How will you communicate data in microservices? : 
+1. by synchronous calls : by directly calling the apis when we want immediate response
+2. by asynchronous calls: thorugh message broker like azure service bus ,
+how it works:
+1. one service publishes the event
+2. other service consumes it independently
+
+pros:
+loose coupling, better scalability, high reliability, 
+cons: 
+more complex, difficult debugging
+
+event driven architecture:
+services react to events instead of direct calling. 
+
+3. database communication: the services should not share a single database. every service have its own database.
+
+4. API gateway: often used as a single entry point.
+
+--------------------------------------------------------------
+
+complete flow of azure service bus
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+

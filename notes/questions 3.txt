@@ -1,0 +1,702 @@
+questions 3:
+
+1. Explain Dependency Injection. 
+
+2. What are SOLID Principal Explain L in this. 
+
+3. Explain Garbage collector. 
+
+4. How you do logging. 
+
+5. Explain Service Lifecycle in Dot net Core(Transient, Scoped and Singleton) give practical example of each where they are used. 
+
+6. What are delegates. 
+
+7. How you can make a public method in a MVC controller but do not want to treat it as an action method? 
+
+8. Explain Design Pattern you have worked on. 
+
+9. How you resolve multiple Dependency in net core. 
+
+10. Difference between Var and Dynamic. 
+
+What is Dependency Injection, and what problem does it solve? 
+
+When would you use Transient vs Scoped lifetime? Give an example. 
+
+Why are you using .NET Core? What are the benefits over .NET Framework? 
+
+What are design principles? Explain with a real-world example where you applied them. 
+
+What are the SOLID principles? Can you explain them with real scenarios? 
+
+What is the Repository pattern, and what are its drawbacks? 
+
+What is the Event-Driven pattern? 
+
+What is the CQRS pattern? 
+
+How does CQRS improve application performance? 
+
+Have you used the CQRS pattern in any Web API or microservices? 
+
+What is unmanaged code, and how do you manage it in a .NET application? 
+
+What are Generics? 
+
+What are Func<> and Predicate<>? 
+
+What is cancellation token 
+
+What are the advantages of LINQ over Entity Framework queries? 
+
+What is the use of the Include keyword compared to Join? 
+
+What are best practices for fetching and filtering data using LINQ? 
+
+1. We are facing a problem the value of session variable is sometime showing and some time not on UI?(consider session is not expired) how will you approach/debug this problem. 
+
+2. For a given Data query how will you optimize that ? have you use any tool? 
+
+3. A output based question to check call by reference and call by value concept in C# 
+
+1. What's your strongest area Backend/frontend? 
+
+2. Can you Explain how will you design a API to Fetch payroll Information? 
+
+3. A LINQ query question to fetch payroll info. 
+
+4. Have you use any Health Check kind of feature/tool for your API? 
+
+Tell me about yourself. 
+
+Have you worked on Connect (RXO)? What issue did you face, and how did you resolve it? 
+
+What challenges did you face in your recent project, and how did you resolve them? 
+
+Explain your recent project architecture along with the technologies used. 
+
+How do you communicate data between microservices? 
+
+How do you implement transactions in microservices? 
+
+Have you used the Saga pattern in microservices? 
+
+How do you authenticate and authorize a Web API? 
+
+If a transaction fails, how do you identify which microservice failed? 
+
+Handling of failures in microservices 
+
+Do you have experience with message brokers? If yes, please explain. 
+
+How do you track error logs in your microservices? 
+
+In GCP, how do you identify where an error was generated? 
+
+How do you monitor a complex GCP environment? 
+
+If the application is slowing down and the code looks fine, how would you troubleshoot? 
+
+How have you configured your API Gateway? 
+
+---------------
+
+RXO:
+
+explain your technical skills?
+Explain recent Project Architecture along with technologies?
+What is CQRS pattern. have you used in any web api/microservices?
+Why you using .net core? what are benefits over .Net framework.?
+What challenged you faced in your recent project and how to resolved?
+When you will use transient and when Scoped – example
+What is design principals? explain with real example where you used?
+How will you communicate data in microservices?
+How to Implement transaction in microservices?
+have you used SAGA pattern in micro services?
+
+ 
+What is advantages of linq over the entityframe work ?
+What is the use 'include' key over the 'join' key ?
+what is the best practice while fetching and filtering details in linq ?
+Design Principals
+What is Repositary pattern and drawback of the patterns ?
+Do you have any exp on message brokers, if you have pls explain them ? 
+What is CQRS Design pattern ?
+What is Event Driven Pattern ?
+ 
+How you track error logs in your microservice?
+In GCP how you will know error is generated from where?
+How you have configured you API gateway?
+How you can authenticate and authorised you web API.
+If transaction failed how you know which microservice failed?
+Your application is slowdown and code are fine then what to do?
+How do you monitor a complex GCP environment?
+ 
+ 
+ 
+1. Tell me about your self?
+2. Have you worked in connect (RXO), what is issue and how you resolve the issue?
+3. What is CQRS Pattern, how it improve the performance of the application?
+4. What are SOLID Principles, can you explain in really scenarios?
+5. What is Dependency injection and what problem it was resolved?
+6. What is LLD and HLD and unit test, how you implemented ?
+7.What is the mocking?
+8. What is unmanaged code and how you mange of unmanaged code application?
+9. What is generics ?
+10. What are Func() and Predicate()?
+
+--------------------
+
+-------------------------------
+
+identify gap
+discuss with Pankaj , ankit , to identify gaps
+plan to cover with gaps
+do mock
+and prepare for interviews 
+
+------------------------------
+
+
+.Net:
+explain design pattern you have worked on
+how do you make a public method in MVC controller but do not want to treat it as an action method
+dot net core and dot net features
+why do we need to go for web api? web service vs web api
+fluent assertion
+what is the process to configure entity framework in mvc using the database first approach
+solid principal with real example
+oops principal , in detail'
+compare .net core with MVC
+when would you use transient and when scoped , provide example
+CQRS pattrn. have you used in any web api or microservice
+
+explain the service lifecycle with example
+how do you implement authentication middleware in .net core
+purpose of middleware in .net core
+how do you implement logging in .net
+SAGA , why we use eventstore b/w eventbus and RabbitMQ or servicebus
+what CQRS pattern with multiple database
+cqrs pattern. why do we use cqrs pattern with single database
+repository pattern and unit of work
+for a given data query , how will you optimize that? have you use any tool
+we are facing a problem the value of session variable is sometime showing and some time not on UI? (consider session is expired) how will you approach/debug
+this problem
+var and dynamic
+have you used any health check features or tools for API
+how do you resolve multiple dependencies in .net core
+which .net and angular version you have used
+what are the migration challenges from .net framework to .net core
+how to you call a DLL in .net core project
+how can you change the web api response without using content negotiation or content type
+how do you log specific controller action methods
+how do you create custom middleware
+use of middleware
+how do you implement custom exception handling 
+different ways to handle exception
+why do we need to use web api
+what is entity framework, how is it used
+
+
+did you face any .net technical challenges in your project. if so what are they
+how do you implement unit of work pattern
+what is thread pool. what are the benefits of synchronous and asynchronous calls
+
+how to write left join in linq
+
+what is minimal api. 
+write a linq query to retrieve data from two tables
+how do you write a raw sql query in entity framework to retrieve data
+advantages and disadvantages of async and await
+difference between dbcontext.update() and dbcontext.attach()
+
+
+how to do synchronization in multithreading
+JWT, authentication and authorization in .net, what are claims
+MVC life cycle
+MVC and MVP
+difference between task and thread
+mocking and how do you implement
+
+
+what makes .net core an open source framework
+what is .net core web api. how is it used
+
+
+----------------------------------
+
+C#:
+Reflection in C# and how is it used
+use of await using two tasks
+
+Write a program to solve a character reprogramming program where a control device has four buttons: U , D , L , R. Determine the maximum number of 
+deletions required to reach the destination.
+Explain when we need an abstract class and when we need interface with a real example
+what is the difference between task.WhenAny and task.WhenAll
+
+What is underlying mechanism behind dictionary in c#
+when should you choose a list versus a dictionary in c# and why
+
+why are generic collections better than normal collection in c#
+what is async/await in c#, how does it work , how do you use it
+difference between method overloading and method overriding. how do they relate to polymorphism
+inheritance
+fluent assertions and how is it used in unit testing
+difference between featurecontext and scenariocontext in specflow
+what are delegates in c#. how do you handle exceptions in multicast delegate
+how do you sort a list of intergers in c#
+why is the interface segregation principal important and how did you apply it in your last project
+how do you sort a list of intergers in asending order
+write a linq query to fetch payroll information
+explain the concept of call by reference and call by value with an output based example
+difference between var and dynamic
+what is the purpose of async and await? how do you combine more than two async calls
+can garbage collector clean unmanaged code
+what is GC0,1,2
+managed code and unmanaged code
+which design pattern you have worked, explain one briefly
+how do you await two tasks efficiently in c#
+
+
+Given a base class with 'public virtual int xyz()' and a derived class overriding with 'public override string xyz()' , what happen and what would
+'ref.xyz()' return for different refernces
+boxing and unboxing
+what is the using statement and when should you use it
+what are oops core concept. nd why they useful
+deferred execution and immediate execution
+first() and firstordefault()
+when does a static class initialize in c#
+
+what are design patterns in c#. 
+explain dependency injection in detail. how is it implemented in angular and .net core . why it is used
+why do we use interface in c#
+how do you call a parent class method using a child class object
+types of polymorphism. explain in detail
+how do async and await work in multithreading in c#
+what is linq and how is it used in c#
+how can you write a c# program to find the number of occurences of characters in string
+
+
+
+
+dictionary : it is a collection that stores data as key-value pairs.
+it belongs to systems.collections.generic namespace
+
+Dictionary<TKey, TValue> dictionaryName =
+    new Dictionary<TKey, TValue>();
+
+C# Dictionary is implemented using a hash table with separate chaining, where keys are hashed to buckets and collisions are handled via entry chains using array indices
+-------------------------
+
+generic collection
+
+------------------------
+
+call by value , call by reference
+value type, reference type
+pass by value, pass by reference
+ref and out
+
+----------------------
+
+
+liskov principal
+interaface segregation
+encapsulation
+abstraction
+abstract class and interface
+async await
+thread & task
+dependency injection
+repository pattern
+static and sealed
+var and dynamic
+cache
+filters
+generics
+api gateway
+monolithic and microservices
+run , use and map
+clean architecture
+difference between asp.net and asp.net core
+request delegates
+on which version you have worked
+anagrams
+count of occurance of alphabets in string
+
+
+-----------------------
+
+oops
+solid principal
+thread task
+di
+repository pattern
+api gateway
+
+--------------------
+
+delegates are the type safe function pointer in c# that holds the reference to the method. it is based on callbacks and event handling.
+They are used to pass methods as a parameter, store them , combine them and call them dynamically.
+
+multicast delegates - that holds the reference to multiple methods. 
+
+---------------
+
+singleton design pattern:
+
+public class singleton
+{
+private static singleton _instance;
+
+private singleton(){}
+
+public static singleton GetInstance()
+{
+if(instance==null)
+{
+_instance=new singleton()
+}
+return _instance
+}
+
+public void showmessage()
+{
+console.writeline("hello")
+}
+
+}
+
+-----------------
+
+public class Employee
+{
+ 
+public void GetEmployee(){
+Console.Writeline("Employee List");
+}
+ 
+}
+ 
+public class Order : Employee
+{
+ 
+public void GetOrder(){
+Console.Writeline("Employee Order List");
+}
+}
+ 
+ 
+Order obj = new Employee();
+Console.Writeline(obj.GetOrder());
+
+output : 
+
+-------------
+
+"ate", "eat", "tea", "run"
+
+
+
+string s1="ate"
+string s2="eat"
+string s3="tea"
+string s4="run"
+
+
+bool isanagram = s1.length==s2.length && s2.length==s3.length && s3.length==s4.length && s4.length==s1.length 
+&& 
+s1.tolower().orderby(s=>s)==s2.tolower().orderby(s=>s) && s2.tolower().orderby(s=>s)==s3.tolower().orderby(s=>s) && 
+
+---------
+
+Write a program to count occurrence of each character in a string
+string input = "IRISSOFTWARE"
+
+
+-------
+
+string input = "IRISSOFTWARE"
+var dict = new Dictionary<char,int>
+
+foreach(var d in input.replace(" "))
+{
+  if(dict.containskey(d))
+{
+  
+}
+}
+
+-------------------------------
+
+1. difference between c# and .net:
+c# - it is object oriented programming language which runs on .net framework.
+.net - it is framework for building and running application and software.
+
+2. oops:
+object oriented programming language. it is a way to create software around objects.
+It provides a clean and clear structure for software's and web applications.
+
+Advantages of oops:
+1. reuse of code using inheritance
+2. flexibility of code using polymorphism
+3. secure application by using encapsulation
+4. easily scalable from small to large applications
+5. Easier troubleshooting of code because of modularity
+
+Limitations of OOPS:
+1. it is not suitable for small applications
+
+class and objects:
+class: it is a blueprint for creating of objects. it defines properites and methods an object can have.
+objects: it is an instance of class. it provides real world entities created from class.
+
+A class can not do anything by itself. it needs objects.
+First class member is constructor whose name is same as that of the class name.
+second class member is field. it is variable of any type.
+third class member is property. it helps in read and write of private field
+fourth class member is method. is a code block that contains series of  statement. it also contains the business logic.
+
+Types of class :
+abstract class , static class , sealed class , partial class
+
+Is it possible to prevent object creation of a class in c#:
+object creation of a class can be prevented by : we can not create the objects of below mentioned class
+abstract class , static class , private class
+
+
+property:
+
+--------------------------
+
+
+
+Dot Net Theoretical Questions : 
+
+ 
+media type formatters, 
+
+content negotiation
+
+
+
+composition - classes where one class contains the object of another to use the functionality
+
+
+linq
+  
+
+ 
+
+1. Explain Dependency Injection. 
+
+2. What are SOLID Principal Explain L in this. 
+
+3. Explain Garbage collector. 
+
+4. How you do logging. 
+
+5. Explain Service Lifecycle in Dot net Core(Transient, Scoped and Singleton) give practical example of each where they are used. 
+
+6. What are delegates. 
+
+7. How you can make a public method in a MVC controller but do not want to treat it as an action method? 
+
+8. Explain Design Pattern you have worked on. 
+
+9. How you resolve multiple Dependency in net core. 
+
+10. Difference between Var and Dynamic. 
+
+ 
+
+Dot Net Practical Questions : 
+
+1. We are facing a problem the value of session variable is sometime showing and some time not on UI?(consider session is not expired) how will you approach/debug this problem. 
+
+2. For a given Data query how will you optimize that ? have you use any tool? 
+
+3. A output based question to check call by reference and call by value concept in C# 
+
+ 
+
+Angular 
+
+1. What is pipe? have you used any custom pipe if so please explain. 
+
+2. What is NgModule have you created any? 
+
+3. Is Function overloading possible in JavaScript and Typescript 
+
+4. Why to use Typescript ? 
+
+=========================================================== 
+
+Round 2:  
+
+1. What's your strongest area Backend/frontend? 
+
+2. Can you Explain how will you design a API to Fetch payroll Information? 
+
+3. A LINQ query question to fetch payroll info. 
+
+4. Have you use any Health Check kind of feature/tool for your API? 
+
+-------------------------------------------------------------------------------------------------------------------------------------- 
+
+General & Experience 
+
+Tell me about yourself. 
+
+Have you worked on Connect (RXO)? What issue did you face, and how did you resolve it? 
+
+What challenges did you face in your recent project, and how did you resolve them? 
+
+Explain your recent project architecture along with the technologies used. 
+
+ 
+
+Design Principles & Patterns 
+
+What are design principles? Explain with a real-world example where you applied them. 
+
+What are the SOLID principles? Can you explain them with real scenarios? 
+
+What is the Repository pattern, and what are its drawbacks? 
+
+What is the Event-Driven pattern? 
+
+What is the CQRS pattern? 
+
+How does CQRS improve application performance? 
+
+Have you used the CQRS pattern in any Web API or microservices? 
+
+ 
+
+Architecture (LLD, HLD, Testing) 
+
+What is HLD and LLD? 
+
+What is unit testing, and how have you implemented it? 
+
+What is mocking? 
+
+ 
+
+Dependency Injection & .NET 
+
+What is Dependency Injection, and what problem does it solve? 
+
+When would you use Transient vs Scoped lifetime? Give an example. 
+
+Why are you using .NET Core? What are the benefits over .NET Framework? 
+
+ 
+
+Language & Framework Concepts 
+
+What is unmanaged code, and how do you manage it in a .NET application? 
+
+What are Generics? 
+
+What are Func<> and Predicate<>? 
+
+What is cancellation token 
+
+ 
+
+LINQ & Entity Framework 
+
+What are the advantages of LINQ over Entity Framework queries? 
+
+What is the use of the Include keyword compared to Join? 
+
+What are best practices for fetching and filtering data using LINQ? 
+
+ 
+
+Microservices 
+
+How do you communicate data between microservices? 
+
+How do you implement transactions in microservices? 
+
+Have you used the Saga pattern in microservices? 
+
+How do you authenticate and authorize a Web API? 
+
+If a transaction fails, how do you identify which microservice failed? 
+
+Handling of failures in microservices 
+
+ 
+
+Messaging & Integration 
+
+Do you have experience with message brokers? If yes, please explain. 
+
+ 
+
+Monitoring, Logging & Performance 
+
+How do you track error logs in your microservices? 
+
+In GCP, how do you identify where an error was generated? 
+
+How do you monitor a complex GCP environment? 
+
+If the application is slowing down and the code looks fine, how would you troubleshoot? 
+
+ 
+
+API Gateway 
+
+How have you configured your API Gateway? 
+
+ 
+
+Question Asked as of 27-April from Vinati and Manushree 
+
+ 
+
+Vinnati - 
+
+Angular element 
+
+Angular web components 
+
+Services 
+
+Project architecture 
+
+Manushree 
+
+Angular Architecture 
+
+Components communication 
+
+Life cycle hooks 
+
+Bindings 
+
+Backend 
+
+OOPS concepts 
+
+Asynchronous programming 
+
+Output question - walk through the code execution. 
+
+ 
+
+ -------------------------
+
+c#, .net core , oops , microservices , design pattern , cqrs
+
+
+
+
+
+	

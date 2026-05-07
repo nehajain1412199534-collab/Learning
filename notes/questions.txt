@@ -1,0 +1,262 @@
+questions:
+1. why do we use the interface segregation principle and how was it implemented in your last project:
+we use this because it focuses on the statement that a client need not to be depend on the interfaces they dont use. i implemented this with the example like : i want to implement the functionality of print,scan and fax. so for this i used to create separate separate interface for all three and in class we can inherit only that we want or client want.
+OR
+We use the Interface Segregation Principle because it states that a client should not depend on interfaces it does not use. In my project, instead of creating one large interface with print, scan, and fax methods, I created separate interfaces for each functionality. Then, the implementing classes only implemented the interfaces they actually needed, based on client requirements.
+
+2. explain the liskov substituition principle in solid:
+the objects of super class should be repleable with the objects of the sub class without affecting the correct ness of the program.
+example : if a is the super class ,b is the sub class and then the object of super class can be use any where also acc to this principle, objects of sub class can also be used any where without breaking functionality.
+
+3. how do you implement authentication middleware ina  web application :
+it can be implemented by using already built in authentication middleware by using app.useauthentication() in program.cs file instead of creating manual middleware because it is more secure. it first validates the token, verifies the token and then pass it to the next middleware. and also we can create custom middleware by creating a middleware class then we use it , and defined in program.cs which validates the token.
+OR
+Authentication can be implemented using the built‑in authentication middleware by calling app.UseAuthentication() in the Program.cs file, instead of creating a manual middleware, because it is more secure and follows framework best practices. This middleware validates and verifies the token and then passes the request to the next middleware in the pipeline.
+Alternatively, we can also create custom authentication middleware by creating a middleware class that validates the token and registering it in Program.cs.
+
+4. We are facing a problem where the value of a session variable sometimes appears and sometimes does not on the UI , how would we debug:
+1. ensure session is properly configured. 
+2. session timeout
+3. load balancer, 
+4. logging to track the session value
+5. session dependes on cookies, cookies must be enabled 
+
+5. how can you make a public method in an MVC controller that is not treated as an action method :
+by using the attribute [NonAction] on the controller action method.
+
+6. how do you transfer data between controller and view , view to controller , and controller to controller in MVC: 
+by using view bag , view data and temp data:
+view bag and view data are used to transfer the data from controller to view.
+
+ViewBag.Name = "Neha";
+ViewData["Age"] = 25;
+
+view to controller is used for form submission and model binding.
+tempdata used to transfer the data between two request.
+TempData["Message"] = "Saved successfully";
+
+7. 500 status series
+500 : internal server error
+502 : badgateway
+503 : service unavailable
+504 : gateway timeout
+
+8. 401 and 403 :
+401 - unauthorized- when the token is not validated, either token is not generated correctly or expires
+403 - forbidden - user is not authorized to do so
+
+9. what are restful apis and what are the different types of apis:
+restful apis are those api's who follow the rest principles , they have http based protocol , data format is in mostly in json but can also be in xml or plain text, it is more flexible , 
+2 types of apis are :
+restful and soap : soap are those which are xml based protocol , xml data formats, less flexible , but more secure because there is inbuild security feature.
+
+10. why do we need to use web api: we need api to communicate one software application to another , it is used where we have to develope the application on multiple servers like web application , mobile application and so on , so here we use api .
+
+11. difference between web service and web api: 
+
+12. how do you resolve multiple dependency in asp.net core : 
+by registering multiple implementations of the interfaces using ienumerable or by using factory pattern
+
+13. how can the web api resonse be change without using content negotiation :
+by explicitly returning specific result types like ok, content, file or specific response model or modifying the response through middleware.
+
+14. what are migratiosn from .net to .net core :
+may be some libraries of .net not supported in .net core
+may be old nuget package not supported in .net core
+.net follows monolithic architecture , .net core follows modular architecture
+old exist web.config and in .net core appsetting.json exists.
+
+15. how do you call a DLL in .net core project :
+by adding project references or using it as a namespace , while make enables to access its classes or methods or, also we can call it by using reflections.
+
+16. what is dependency injection and how it is used:
+it is a design pattern in which a class or object receives their depencies from the external source rather than creating by themselves. 
+it has 3 life service lifetinme:
+addscoped
+addsingleton
+addtransient
+
+17. what is the underlying mechanism behind dictionary in c#:
+it is internally by using hash table. it uses keys hash code to store and retrieve it in bucket, prodivind fast average time complexity for insert and lookup operation.
+
+18.why generic collections are better than normal collection because it is type safety, no need of boxing/unboxing, and also performance is good.
+
+19. Add transient: it creates new instance every time it requested.example: for email sending, validating services, we can use Addtranseint, because it is stateless , no shared connection.
+
+Addscoped: it create new instance per http request.example: dbcontext , because it must be shared within one request, works with database per request
+
+addsingleton: it creates a single instance for the whole application. example: cache, logging , configuration
+it is used for global sharing,  it is also stateless.
+
+
+-----------------
+
+httpclientfactory: this is usually refers to a design pattern for creating and managing http client instances in a clean, efficient and scalable way.
+instead of creating objects manually everywhere in code, httpclientfactory centralizes their creation and configuration.
+
+why it exists:
+1. if we just use httpclient directly , we can run into many problems:
+a. socket exhaustion (too many open connections)
+b. hard to manage configuration (timeouts)
+c. improper DNS updates
+
+httpclientfactory does:
+1. manages the lifetime of httpclient instance
+2. reuses http connections
+3. supports: named clients, typed clients, polly based resilience , centralized configuration, logging 
+
+register in program.cs:
+builder.services.AddHttpClient();
+
+use it
+public class MyService()
+{
+private readonly IhttpClientFactory _httpclientfactory
+public MyService(IhttpClientFactory httpclientfactory)
+{
+ _httpclientfactory=httpclientfactory
+}
+public async task<string>GetDataAsync()
+{
+var client=_httpclientfactory.CreateClient();
+return await client.getStringAsync("https://fbruhfur.com")
+}
+}
+
+types of httpclient:
+Names Client, types client, resilient client
+
+
+
+--------------------
+httpclient : it is used to send http request and recevied http response from resources identified by the url.
+libbrayr '; system.net.http
+
+with the httpclient, we ca do:
+call rest api
+send get, put, post, patch request
+send or recevied data ij json , xml 
+
+key featurwes:
+it is asynchronous , suppot authentication , support json serializatiom , 
+
+----------------
+
+circuit breaker: it is design pattern used in software to prevent repeated failures when calling an external service.
+it is inspired by real electric circuit breaker. 
+
+---------------------
+
+value type
+reference type
+
+pass by value , pass by reference
+
+ref n out
+
+
+
+ref : is used to pass the variable as a reference, the variable should be initialized before passing . method can read it and update it
+out : is also used to pass the variable as a reference, the variable need not to be initialized before passing but should be assign a value before returning.
+
+
+pass by value:
+pass by reference:
+
+
+
+Value types and reference types describe data storage, while pass‑by‑value and pass‑by‑reference describe parameter passing; in C#, both value and reference types are passed by value by default, and ref/out are used for pass by reference.
+
+
+
+class: it is a reference type. it is stored on heap. variable stored the reference to object.it supports inheritance. class can have paramterised and
+paramterless constructor.it can be assigned null. it is mutable. use class when there is large object. long lived objects.
+
+
+struct: it is value type.it is stored on stack. it stores the actual value.  it does not support inheritance. it can not have paramterless constructor.
+it can have parameterized constructor. it can not be null. it is immutable. use struct when data is small. short lived objects.
+
+
+CLR: common language runtime. responsibility:
+1. converts intermediate language in to the machine language
+2. allocates memory for object. perform GC
+3. handles runtime exceptions
+4. manages thread, multithreading
+
+
+Middleware executes in the order it is added to the pipeline
+Each middleware can:
+
+Process the request
+Call the next middleware
+Process the response on the way back
+
+
+
+
+why di is built in :
+loosely coupled, follows solid principle , improves testabuility, improves performance, makes application scalable and maintainable.
+
+
+asp.ent core request life cycle:
+1. client send request
+2. web server receives request
+3. request enter the middleware pipeline, they runs in order
+4. .net core decides the end point
+5. selected controller action executed , result is generated in json or view etc.
+6. response goes back through middleware
+7. response sent to client.
+
+
+What is the difference between appsettings.json and environment‑specific configuration (like appsettings.Development.json) in ASP.NET Core?:
+appsettings.json contains common application settings, while environment‑specific files like appsettings.Development.json override those settings based on the current environment.
+
+
+in process and out of process hosting:
+In‑process hosting runs the ASP.NET Core application inside the IIS process and offers better performance, while out‑of‑process hosting runs the application separately using Kestrel with IIS or Nginx acting as a reverse proxy.
+
+
+What is Configuration in ASP.NET Core and how is it different from app configuration in classic .NET?:
+ASP.NET Core configuration is a flexible, environment‑aware system that can read settings from multiple sources like JSON files, environment variables, and command‑line arguments, unlike classic .NET where configuration was mainly limited to web.config.
+
+
+
+What is Program.cs in ASP.NET Core?
+What is its role in the application?:
+Program.cs is the entry point of an ASP.NET Core application where the host is created, services are registered, middleware is configured, and the application is started.
+
+
+
+What is a Minimal API in ASP.NET Core?
+Why was it introduced?:
+Minimal APIs are a lightweight way to build HTTP APIs in ASP.NET Core with minimal configuration and no controllers, designed for simplicity, high performance, and microservice scenarios.
+
+it was introduced:
+to make api development simpler and faster
+improve performance
+support microservices and small APIs
+simple crud apis
+
+
+key characteristics:
+no controller
+defined in program.cs
+lightweight and fast
+built in dependency injection
+
+
+questions:
+When would you choose Minimal API over MVC?
+Can we use DI in Minimal APIs?
+Can Minimal APIs handle validation?
+Are Minimal APIs suitable for large applications?
+
+Difference between Program.cs and Startup.cs
+What happens if middleware order is wrong?
+What is WebApplicationBuilder?'
+
+
+practical :
+
+
+

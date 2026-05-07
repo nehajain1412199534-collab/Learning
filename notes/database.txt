@@ -1,0 +1,66 @@
+database:
+-----------------------------
+department table 
+three column 
+employee id , dept id , manager id and salary
+
+employee id - 1
+dept id - 1
+manager id - 101
+salary - 6000
+
+
+2
+1
+101
+8000
+
+
+4
+2
+102
+6000
+
+query department wise highest salary, output should be 
+1,8000
+2,6000
+
+
+select deptid,salary from department group by deptid,salary having count(*)>1 order by salary
+
+select deptid,max(salary) as HighestSalary from department group by deptid
+
+insert one more row 
+emp id 3
+dept id 1
+manager id 103
+salary - 8000
+
+output should be : emp id 2 , dept id 1 , manag id 101 , salary 8000
+
+emp id - 2 , 4 , 3
+multiple employee having highest salary
+
+select empid,deptid,mangid,salary from department where salary=(select max(salary) from department)
+
+select * from department d1 self join 
+
+-------------
+
+employee table - emp id , emp name , emp address
+department table - emp id , dept id , dept name 
+
+1,neha,abc
+2,akhil,bcdf
+
+1,101,education
+
+
+select a.empid,a.empname,a.empaddress,b.deptname from emp a left join dept b on a.empid=b.empid 
+1,neha,abc,education
+2,akhil,bcdf,null
+
+
+select * from emp a inner join dept b on a.empid=b.empid 
+
+
